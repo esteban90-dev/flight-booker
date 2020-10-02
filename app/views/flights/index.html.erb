@@ -1,0 +1,20 @@
+<h1>Flights</h1>
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>From Airport</th>
+    <th>To Airport</th>
+    <th>Date/Time</th>
+    <th>Duration</th>
+  </tr>
+  <% @flights.each do |flight| %>
+    <tr>
+      <td><%= flight.id %></td>
+      <td><%= flight.from_airport.location %></td>
+      <td><%= flight.to_airport.location %></td>
+      <td><%= flight.datetime %></td>
+      <td><%= flight.duration %></td>
+    </tr>
+  <% end %>
+</table>
