@@ -60,10 +60,6 @@ AIRPORTS = [
 
 #Generate Airports
 
-def random_datetime
-  Time.at(( (END_DATETIME - START_DATETIME) * rand() ) + START_DATETIME )
-end
-
 airports = AIRPORTS.map do |airport|
   Airport.create(airport)
 end
@@ -71,9 +67,13 @@ end
 
 #Generate Flights
 
-END_DATETIME = Time.new(2020,12,31).to_f
-START_DATETIME = Time.new(2020,1,1).to_f
+END_DATE = Time.new(2020,12,31).to_f
+START_DATE = Time.new(2020,1,1).to_f
 FLIGHT_SPEED = 500 #mph
+
+def random_datetime
+  Time.at(( (END_DATE - START_DATE) * rand() ) + START_DATE )
+end
 
 
 1000.times do 
@@ -88,8 +88,6 @@ FLIGHT_SPEED = 500 #mph
 
   distance = Haversine.distance(from_airport.latitude, from_airport.longitude, to_airport.latitude, to_airport.longitude).to_miles
   duration = distance / FLIGHT_SPEED
-
-  puts "#{random_datetime}"
 
   flight_params = {
     from_airport: from_airport,
