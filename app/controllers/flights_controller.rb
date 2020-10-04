@@ -5,8 +5,13 @@ class FlightsController < ApplicationController
   def index
     if params[:search]
       @flights = Flight.by_date(selected_date)
+      @flights = @flights.by_from_airport(search_params[:from_airport])
+      @flights = @flights.by_to_airport(search_params[:to_airport])
+      @search = search_params
+      binding.pry
     else
       @flights = Flight.take(5)
+      @search = nil_search_params
     end
   end
 
@@ -26,8 +31,19 @@ class FlightsController < ApplicationController
 
   def selected_date
     Date.new(search_params["date(1i)"].to_i,
-            search_params["date(2i)"].to_i,
-            search_params["date(3i)"].to_i).beginning_of_day
+             search_params["date(2i)"].to_i,
+             search_params["date(3i)"].to_i).beginning_of_day
   end
+
+  def nil_search_params
+    {
+      from_airport: nil,
+      to_airport: nil,
+      passenger_number: nil,
+      date: nil
+    }
+  end
+
+
 
 end
