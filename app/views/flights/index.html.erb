@@ -2,10 +2,10 @@
 
 <%= form_with url: flights_path, scope: :search, local: true, method: "get" do |f| %>
   <%= f.label :from_airport, "Departing From:" %>
-  <%= f.select :from_airport, @airport_options, selected: @search[:from_airport] %><br><br>
+  <%= f.select :from_airport, @airport_options, selected: @search[:from_airport], include_blank: true %><br><br>
 
   <%= f.label :to_airport, "Arriving At:" %>
-  <%= f.select :to_airport, @airport_options, selected: @search[:to_airport] %><br><br>
+  <%= f.select :to_airport, @airport_options, selected: @search[:to_airport], include_blank: true %><br><br>
 
   <%= f.label :passenger_number, "Number of Passengers" %>
   <%= f.select :passenger_number, [1,2,3,4], selected: @search[:passenger_number] %><br><br>
