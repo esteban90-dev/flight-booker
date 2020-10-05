@@ -2,19 +2,21 @@
 
 <%= form_with url: flights_path, scope: :search, local: true, method: "get" do |f| %>
   <%= f.label :from_airport, "Departing From:" %>
-  <%= f.select :from_airport, @airport_options, selected: @search[:from_airport], include_blank: true %><br><br>
+  <%= f.select :from_airport, @airport_options, selected: @from_airport, include_blank: true %><br><br>
 
   <%= f.label :to_airport, "Arriving At:" %>
-  <%= f.select :to_airport, @airport_options, selected: @search[:to_airport], include_blank: true %><br><br>
+  <%= f.select :to_airport, @airport_options, selected: @to_airport, include_blank: true %><br><br>
 
   <%= f.label :passenger_number, "Number of Passengers" %>
-  <%= f.select :passenger_number, [1,2,3,4], selected: @search[:passenger_number] %><br><br>
+  <%= f.select :passenger_number, [1,2,3,4], selected: @passenger_number %><br><br>
 
   <%= f.label :date, "Date:" %>
-  <%= f.date_select :date, selected: @search[:date] %><br><br>
+  <%= f.date_field :date, value: @date %><br><br>
 
   <%= f.submit "Search" %>
 <% end %>
+
+<br><br>
 
 <% if @flights %>
   <table>
@@ -26,7 +28,7 @@
     </tr>
     <% @flights.each do |flight| %>
       <tr>
-        <td><%= flight.from_airport.location %></td>
+        <td><%= link_to flight.from_airport.location, flight_path(flight) %></td>
         <td><%= flight.to_airport.location %></td>
         <td><%= flight.datetime.to_formatted_s %></td>
         <td><%= flight.duration %></td>
