@@ -8,10 +8,18 @@ class Flight < ApplicationRecord
   end
 
   def self.by_from_airport(airport)
-    where(from_airport: airport)
+    if airport.empty?
+      all
+    else
+      where(from_airport: airport)
+    end
   end
 
   def self.by_to_airport(airport)
-    where(to_airport: airport)
+    if airport.empty?
+      all
+    else
+      where(to_airport: airport)
+    end
   end
 end
