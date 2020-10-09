@@ -1,0 +1,14 @@
+<table>
+  <tr>
+    <th>Departing</th>
+    <th>Arriving</th>
+    <th>Date/Time</th>
+    <th>Duration</th>
+  </tr>
+  <tr>
+    <td><%= @booking.flight.from_airport.location %></td>
+    <td><%= @booking.flight.to_airport.location %></td>
+    <td><%= @booking.flight.datetime.to_formatted_s %></td>
+    <td><%= @booking.flight.duration %></td>
+  <tr>
+</table>

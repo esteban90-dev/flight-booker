@@ -1,0 +1,20 @@
+<h1>Booking Information</h1>
+
+<%= render 'flight' %>
+
+<h2>Passenger Information</h2>
+
+<table>
+  <tr>
+    <th>Passenger No.</th>
+    <th>Name</th>
+    <th>Email</th>
+  </tr>
+  <tr>
+    <% @booking.passengers.each_with_index do |passenger, index| %>
+      <td><%= index + 1 %></td>
+      <td><%= passenger.name %></td>
+      <td><%= passenger.email %></td>
+    <% end %>
+  </tr>
+</table>

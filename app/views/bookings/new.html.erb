@@ -1,0 +1,15 @@
+<h1>Flight Information</h1>
+<%= render 'flight' %>
+
+<h2>Enter Passenger Information</h2>
+
+<%= form_with model: @booking, local: true do |f| %>
+  <%= f.hidden_field :flight_id, value: @booking.flight.id %>
+  <%= f.fields_for :passengers do |passengers_form| %>
+    <%= passengers_form.label :name %>
+    <%= passengers_form.text_field :name %><br><br>
+    <%= passengers_form.label :email %>
+    <%= passengers_form.email_field :email %><br><br>
+  <% end %>
+  <%= f.submit "Submit" %>
+<% end %>
