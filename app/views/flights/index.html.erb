@@ -11,7 +11,7 @@
   <%= f.select :passenger_number, [1,2,3,4], selected: @passenger_number %><br><br>
 
   <%= f.label :date, "Date:" %>
-  <%= f.date_field :date, value: @date %><br><br>
+  <%= f.date_field :date, value: @date, min: Flight.earliest, max: Flight.latest %><br><br>
 
   <%= f.submit "Search" %>
 <% end %>
