@@ -25,4 +25,16 @@ class Flight < ApplicationRecord
       where(to_airport: airport)
     end
   end
+
+  def self.dates
+    dates = all.pluck(:datetime).map{ |datetime| datetime.to_date }
+  end
+
+  def self.earliest
+    dates.sort.first
+  end
+
+  def self.latest
+    dates.sort.last 
+  end
 end
