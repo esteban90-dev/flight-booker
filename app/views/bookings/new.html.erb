@@ -1,31 +1,37 @@
-<h1>Flight Information</h1>
-<%= render 'flight' %>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Flight Information</h1>
+      <%= render 'flight' %>
 
-<h2>Enter Passenger Information</h2>
+      <h2>Enter Passenger Information</h2>
 
-<% if @booking.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
-    <ul>
-    <% @booking.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
+      <% if @booking.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
+          <ul>
+          <% @booking.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: @booking, local: true do |f| %>
+        <%= f.hidden_field :flight_id, value: @booking.flight.id %>
+        <% count = 1 %>
+        <%= f.fields_for :passengers do |passengers_form| %>
+          <% if @booking.passengers.length > 1 %>
+            <h3>Passenger <%= count %>:</h3>
+            <% count += 1 %>
+          <% end %>
+          <%= passengers_form.label :name %>
+          <%= passengers_form.text_field :name %><br><br>
+          <%= passengers_form.label :email %>
+          <%= passengers_form.email_field :email %><br><br>
+        <% end %>
+        <%= f.submit "Submit" %>
+      <% end %>
+    </div>
   </div>
-<% end %>
-
-<%= form_with model: @booking, local: true do |f| %>
-  <%= f.hidden_field :flight_id, value: @booking.flight.id %>
-  <% count = 1 %>
-  <%= f.fields_for :passengers do |passengers_form| %>
-    <% if @booking.passengers.length > 1 %>
-      <h3>Passenger <%= count %>:</h3>
-      <% count += 1 %>
-    <% end %>
-    <%= passengers_form.label :name %>
-    <%= passengers_form.text_field :name %><br><br>
-    <%= passengers_form.label :email %>
-    <%= passengers_form.email_field :email %><br><br>
-  <% end %>
-  <%= f.submit "Submit" %>
-<% end %>
+</div>

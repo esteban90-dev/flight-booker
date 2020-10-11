@@ -1,47 +1,85 @@
-<h1>Flights</h1>
+<div class="container">
 
-<%= form_with url: flights_path, scope: :search, local: true, method: "get" do |f| %>
-  <%= f.label :from_airport, "Departing From:" %>
-  <%= f.select :from_airport, @airport_options, selected: @from_airport, include_blank: true %><br><br>
+  <div class="row justify-content-md-center mb-4">
+    <div class="col-sm-3">
+      <h1>Flights</h1>
+    </div>
+  </div>
 
-  <%= f.label :to_airport, "Arriving At:" %>
-  <%= f.select :to_airport, @airport_options, selected: @to_airport, include_blank: true %><br><br>
+  <div class="row justify-content-md-center">
+    <div class="col-md-6">
+      <%= form_with url: flights_path, scope: :search, local: true, method: "get" do |f| %>
 
-  <%= f.label :passenger_number, "Number of Passengers" %>
-  <%= f.select :passenger_number, [1,2,3,4], selected: @passenger_number %><br><br>
+        <div class="form-group">
+          <%= f.label :from_airport, "Departing From:" %>
+          <%= f.select :from_airport, @airport_options, { selected: @from_airport, include_blank: true }, { class: "form-control" } %>
+        </div>
 
-  <%= f.label :date, "Date:" %>
-  <%= f.date_field :date, value: @date, min: Flight.earliest, max: Flight.latest %><br><br>
+        <div class="form-group">
+          <%= f.label :to_airport, "Arriving At:" %>
+          <%= f.select :to_airport, @airport_options, { selected: @to_airport, include_blank: true }, { class: "form-control" } %>
+        </div>
 
-  <%= f.submit "Search" %>
-<% end %>
+        <div class="form-group">
+          <%= f.label :passenger_number, "Number of Passengers" %>
+          <%= f.select :passenger_number, [1,2,3,4], { selected: @passenger_number }, { class: "form-control" } %>
+        </div>
 
-<br><br>
+        <div class="form-group">
+          <%= f.label :date, "Date:" %>
+          <%= f.date_field :date, value: @date, min: Flight.earliest, max: Flight.latest, include_blank: false %>
+        </div>
 
-<% if @flights %>
-  <h2>Choose your Flights</h2>
-  <%= form_with url: new_booking_path, scope: :booking, method: "get", local: true do |f| %>
-    <%= f.hidden_field :passengers, value: @passenger_number %>
-    <table>
-      <tr>
-        <th></th>
-        <th>Departing</th>
-        <th>Arriving</th>
-        <th>Date/Time</th>
-        <th>Duration</th>
-      </tr>
-      <% @flights.each do |flight| %>
-        <tr>
-          <td><%= f.radio_button :flight, flight.id  %></td>
-          <td><%= flight.from_airport.location %></td>
-          <td><%= flight.to_airport.location %></td>
-          <td><%= flight.datetime.to_formatted_s %></td>
-          <td><%= flight.duration %></td>
-        <tr>
+        <div class="row justify-content-end mb-3">
+          <%= f.submit "Search" %>
+        </div>
+
       <% end %>
-    </table><br>
-    <%= f.submit "Submit" %>
+    </div>
+  </div>
+
+  <% if @flights %>
+
+    <div class="row justify-content-md-center mt-4 mb-4">
+      <div class="col-md-4">
+        <h2>Choose Your Flights</h2>
+      </div>
+    </div>
+
+    <div class="row justify-content-md-center mb-4">
+      <div class="col-8">
+        <%= form_with url: new_booking_path, scope: :booking, method: "get", local: true do |f| %>
+
+          <%= f.hidden_field :passengers, value: @passenger_number %>
+
+          <table class="table table-sm">
+            <tr>
+              <th></th>
+              <th>Departing</th>
+              <th>Arriving</th>
+              <th>Date/Time</th>
+              <th>Duration</th>
+            </tr>
+            <% @flights.each do |flight| %>
+              <tr>
+                <td><%= f.radio_button :flight, flight.id  %></td>
+                <td><%= flight.from_airport.location %></td>
+                <td><%= flight.to_airport.location %></td>
+                <td><%= flight.datetime.to_formatted_s %></td>
+                <td><%= flight.duration %></td>
+              <tr>
+            <% end %>
+          </table>
+
+          <div class="row justify-content-end">
+            <%= f.submit "Submit" %>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
   <% end %>
-<% end %>
+</div>
+
 
 
