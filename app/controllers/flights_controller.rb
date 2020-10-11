@@ -4,9 +4,14 @@ class FlightsController < ApplicationController
 
   def index
     if params[:search]
-      @flights = Flight.by_date(selected_date)
-      @flights = @flights.by_from_airport(search_params[:from_airport])
-      @flights = @flights.by_to_airport(search_params[:to_airport])
+      if params[:search][:date].empty?
+        flash[:notice] = "You must pick a date"
+        redirect_to root_path
+      else
+        @flights = Flight.by_date(selected_date)
+        @flights = @flights.by_from_airport(search_params[:from_airport])
+        @flights = @flights.by_to_airport(search_params[:to_airport])
+      end
     end
     search_values
   end
@@ -27,6 +32,13 @@ class FlightsController < ApplicationController
 
   def selected_date
     Date.parse(search_params[:date])
+  end
+
+  def check_for_date
+    if params[:search][:date].empty?
+      flash[:notice] = "You must pick a date"
+      redirect_to root_path
+    end
   end
 
   def search_values
