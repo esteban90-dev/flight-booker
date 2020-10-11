@@ -12,6 +12,7 @@ class BookingsController < ApplicationController
   def create
     @booking = Booking.new(booking_params)
     if @booking.save
+      flash[:notice] = "Flight has been successfully booked!"
       redirect_to booking_path(@booking)
     else
       render :new
