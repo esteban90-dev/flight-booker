@@ -11,6 +11,9 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-dark bg-primary">
+      <a class="navbar-brand" href="#">Flight-Booker</a>
+    </nav>
     <% flash.each do |name, msg| -%>
       <%= content_tag :div, msg, class: name %>
     <% end -%>
