@@ -4,9 +4,14 @@ class BookingsController < ApplicationController
   end
 
   def new
-    @booking = Booking.new
-    @booking.flight = Flight.find(params[:booking][:flight])
-    passenger_count.times{ @booking.passengers.build }
+    if params[:booking][:flight].nil?
+      flash[:notice] = "A flight must be selected before submitting"
+      redirect_to root_path
+    else
+      @booking = Booking.new
+      @booking.flight = Flight.find(params[:booking][:flight])
+      passenger_count.times{ @booking.passengers.build }
+    end
   end
 
   def create
@@ -14,6 +19,7 @@ class BookingsController < ApplicationController
     if @booking.save
       flash[:notice] = "Flight has been successfully booked!"
       redirect_to booking_path(@booking)
+      reset_session
     else
       render :new
     end
