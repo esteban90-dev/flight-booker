@@ -1,5 +1,6 @@
 class FlightsController < ApplicationController
   before_action :set_flight, only: [:show]
+  before_action :store_search_terms
   before_action :airport_options, only: [:index]
 
   def index
@@ -13,7 +14,6 @@ class FlightsController < ApplicationController
         @flights = @flights.by_to_airport(search_params[:to_airport])
       end
     end
-    search_values
   end
 
   private
@@ -41,17 +41,12 @@ class FlightsController < ApplicationController
     end
   end
 
-  def search_values
+  def store_search_terms
     if params[:search]
-      @from_airport = search_params[:from_airport]
-      @to_airport = search_params[:to_airport]
-      @passenger_number = search_params[:passenger_number]
-      @date = search_params[:date]
-    else
-      @from_airport = nil
-      @to_airport = nil
-      @passenger_number = nil
-      @date = Date.today
+      session[:from_airport] = params[:search][:from_airport]
+      session[:to_airport] = params[:search][:to_airport]
+      session[:passenger_number] = params[:search][:passenger_number]
+      session[:date] = params[:search][:date]
     end
   end
 end
