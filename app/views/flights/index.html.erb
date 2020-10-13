@@ -1,85 +1,70 @@
-<div class="container">
+<div class="row justify-content-center mt-4 mb-4">
+  <h1>Search for Flights</h1>
+</div>
 
-  <div class="row justify-content-md-center mb-4">
-    <div class="col-sm-3">
-      <h1>Flights</h1>
-    </div>
+<%= form_with url: flights_path, scope: :search, local: true, method: "get" do |f| %>
+
+  <div class="form-group">
+    <%= f.label :from_airport, "Departing From:" %>
+    <%= f.select :from_airport, @airport_options, { selected: @from_airport, include_blank: true }, { class: "form-control" } %>
   </div>
 
-  <div class="row justify-content-md-center">
-    <div class="col-md-6">
-      <%= form_with url: flights_path, scope: :search, local: true, method: "get" do |f| %>
-
-        <div class="form-group">
-          <%= f.label :from_airport, "Departing From:" %>
-          <%= f.select :from_airport, @airport_options, { selected: @from_airport, include_blank: true }, { class: "form-control" } %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :to_airport, "Arriving At:" %>
-          <%= f.select :to_airport, @airport_options, { selected: @to_airport, include_blank: true }, { class: "form-control" } %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :passenger_number, "Number of Passengers" %>
-          <%= f.select :passenger_number, [1,2,3,4], { selected: @passenger_number }, { class: "form-control" } %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :date, "Date:" %>
-          <%= f.date_field :date, value: @date, min: Flight.earliest, max: Flight.latest, include_blank: false %>
-        </div>
-
-        <div class="row justify-content-end mb-3">
-          <%= f.submit "Search" %>
-        </div>
-
-      <% end %>
-    </div>
+  <div class="form-group">
+    <%= f.label :to_airport, "Arriving At:" %>
+    <%= f.select :to_airport, @airport_options, { selected: @to_airport, include_blank: true }, { class: "form-control" } %>
   </div>
 
-  <% if @flights %>
+  <div class="form-group">
+    <%= f.label :passenger_number, "Number of Passengers" %>
+    <%= f.select :passenger_number, [1,2,3,4], { selected: @passenger_number }, { class: "form-control" } %>
+  </div>
 
+  <div class="form-group">
+    <%= f.label :date, "Date:" %>
+    <%= f.date_field :date, value: @date, min: Flight.earliest, max: Flight.latest, include_blank: false, class: "form-control" %>
+  </div>
+
+  <%= f.submit "Search", class: "btn btn-primary btn-block" %>
+  
+<% end %>
+
+<% if @flights %>
+  <% if @flights.length > 0 %>
     <div class="row justify-content-md-center mt-4 mb-4">
-      <div class="col-md-4">
-        <h2>Choose Your Flights</h2>
-      </div>
+      <h2>Choose Your Flights</h2>
     </div>
-
-    <div class="row justify-content-md-center mb-4">
-      <div class="col-8">
-        <%= form_with url: new_booking_path, scope: :booking, method: "get", local: true do |f| %>
-
-          <%= f.hidden_field :passengers, value: @passenger_number %>
-
-          <table class="table table-sm">
-            <tr>
-              <th></th>
-              <th>Departing</th>
-              <th>Arriving</th>
-              <th>Date/Time</th>
-              <th>Duration</th>
-            </tr>
-            <% @flights.each do |flight| %>
-              <tr>
-                <td><%= f.radio_button :flight, flight.id  %></td>
-                <td><%= flight.from_airport.location %></td>
-                <td><%= flight.to_airport.location %></td>
-                <td><%= flight.datetime.to_formatted_s %></td>
-                <td><%= flight.duration %></td>
-              <tr>
-            <% end %>
-          </table>
-
-          <div class="row justify-content-end">
-            <%= f.submit "Submit" %>
-          </div>
-
+    <%= form_with url: new_booking_path, scope: :booking, method: "get", local: true do |f| %>
+      <%= f.hidden_field :passengers, value: @passenger_number %>
+      <%= f.hidden_field :from_airport, value: @from_airport %>
+      <%= f.hidden_field :to_airport, value: @to_airport %>
+      <%= f.hidden_field :date, value: @date %>
+      <table class="table table-sm">
+        <tr>
+          <th></th>
+          <th>Departing</th>
+          <th>Arriving</th>
+          <th>Date/Time</th>
+          <th>Duration (hrs)</th>
+        </tr>
+        <% @flights.each do |flight| %>
+          <tr>
+            <td><%= f.radio_button :flight, flight.id  %></td>
+            <td><%= flight.from_airport.location %></td>
+            <td><%= flight.to_airport.location %></td>
+            <td><%= flight.datetime.to_formatted_s %></td>
+            <td><%= flight.duration %></td>
+          <tr>
         <% end %>
-      </div>
+      </table>
+      <%= f.submit "Submit", class: "btn btn-primary btn-block" %>
+    <% end %>
+  <% else %>
+    <div class="row justify-content-center mt-4">
+      <h3>No flights found</h3>
     </div>
   <% end %>
-</div>
+<% end %>
+
 
 
 
