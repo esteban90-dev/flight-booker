@@ -1,17 +1,17 @@
 class FlightsController < ApplicationController
   before_action :set_flight, only: [:show]
-  before_action :store_search_terms
   before_action :airport_options, only: [:index]
 
   def index
     if params[:search]
-      if params[:search][:date].empty?
+      if date_not_selected?
         flash[:notice] = "You must pick a date"
         redirect_to root_path
       else
         @flights = Flight.by_date(selected_date)
-        @flights = @flights.by_from_airport(search_params[:from_airport])
-        @flights = @flights.by_to_airport(search_params[:to_airport])
+        @flights = @flights.by_from_airport(params[:search][:from_airport])
+        @flights = @flights.by_to_airport(params[:search][:to_airport])
+        search_values
       end
     end
   end
@@ -30,23 +30,18 @@ class FlightsController < ApplicationController
     params.require(:search).permit(:from_airport, :to_airport, :passenger_number, :date)
   end
 
+  def date_not_selected?
+    params[:search][:date].empty?
+  end
+
   def selected_date
-    Date.parse(search_params[:date])
+    Date.parse(params[:search][:date])
   end
 
-  def check_for_date
-    if params[:search][:date].empty?
-      flash[:notice] = "You must pick a date"
-      redirect_to root_path
-    end
-  end
-
-  def store_search_terms
-    if params[:search]
-      session[:from_airport] = params[:search][:from_airport]
-      session[:to_airport] = params[:search][:to_airport]
-      session[:passenger_number] = params[:search][:passenger_number]
-      session[:date] = params[:search][:date]
-    end
+  def search_values
+    @from_airport = params[:search][:from_airport]
+    @to_airport = params[:search][:to_airport]
+    @passenger_number = params[:search][:passenger_number]
+    @date = selected_date
   end
 end
