@@ -21,7 +21,7 @@
 
   <div class="form-group">
     <%= f.label :date, "Date:" %>
-    <%= f.date_field :date, value: @date, min: Flight.earliest, max: Flight.latest, include_blank: false, class: "form-control" %>
+    <%= f.date_field :date, value: @date || Date.today, min: Flight.earliest, max: Flight.latest, include_blank: false, class: "form-control" %>
   </div>
 
   <%= f.submit "Search", class: "btn btn-primary btn-block" %>
