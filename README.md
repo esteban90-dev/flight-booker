@@ -1,24 +1,9 @@
-# README
+# Flight-Booker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is an app that allows a user to search for flights, choose one, then book it.  Once a flight is successfully booked, the user is prompted to book another.  
 
-Things you may want to cover:
+This app was built to practice using nested forms.  To provide the user with flights to search for, 1000 flights were generated randomly from 10 different airports with a random date.  The 'duration' of each flight was estimated based on the [Haversine](https://github.com/kristianmandrup/haversine) distance between the two airports, and an average flight speed of 500 mph.  
 
-* Ruby version
+The app was styled using Twitter Bootstrap. 
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This was the [The Odin Project's](https://www.theodinproject.com/) [Advanced Forms](https://www.theodinproject.com/courses/ruby-on-rails/lessons/building-advanced-forms) project. 
