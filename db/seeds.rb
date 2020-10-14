@@ -68,7 +68,7 @@ end
 #Generate Flights
 
 END_DATE = Time.new(2020,12,31).to_f
-START_DATE = Time.new(2020,1,1).to_f
+START_DATE = Time.new(2020,10,01).to_f
 FLIGHT_SPEED = 500 #mph
 
 def random_datetime
