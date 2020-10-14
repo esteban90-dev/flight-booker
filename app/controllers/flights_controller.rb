@@ -5,7 +5,7 @@ class FlightsController < ApplicationController
   def index
     if params[:search]
       if date_not_selected?
-        flash[:notice] = "You must pick a date"
+        flash[:alert] = "You must pick a date"
         redirect_to root_path
       else
         @flights = Flight.by_date(selected_date)
