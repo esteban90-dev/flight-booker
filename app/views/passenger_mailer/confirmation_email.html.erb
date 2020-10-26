@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello <%= @passenger.name %></h1>
+    <p>
+      You have successfully booked a flight!
+    </p>
+    <div>
+      <p>Here are your flight details:</p>
+      <%= render 'shared/flight' %>
+    </div>
+  </body>
+</html>

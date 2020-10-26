@@ -18,6 +18,7 @@ class BookingsController < ApplicationController
     @booking = Booking.new(booking_params)
     if @booking.save
       flash[:notice] = "Flight has been successfully booked!"
+      send_confirmation_email
       redirect_to booking_path(@booking)
     else
       render :new
@@ -41,5 +42,11 @@ class BookingsController < ApplicationController
       passenger_number: params[:booking][:passengers],
       date: params[:booking][:date]
     }
+  end
+  
+  def send_confirmation_email
+    @booking.passengers.each do |passenger|
+      PassengerMailer.with(passenger: passenger, booking: @booking).confirmation_email.deliver_now
+    end
   end
 end
