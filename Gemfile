@@ -42,6 +42,9 @@ group :development do
   gem 'pry', '~> 0.13.1'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3', '~> 1.4'
+
+  # preview email in default browser instead of sending
+  gem "letter_opener"
 end
 
 group :production do
